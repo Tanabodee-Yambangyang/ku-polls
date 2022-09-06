@@ -1,0 +1,7 @@
+Required Python packages and modules
+
+1.Django
+2.Pathlib
+3.Os
+4.Sys
+5.Datetime
