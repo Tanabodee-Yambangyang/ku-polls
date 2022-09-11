@@ -19,5 +19,6 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 - [Requirements](../../wiki/Requirements)
 - [Project Plan](../../wiki/Development%20Plan)
 - [Iteration 1 Plan](../../wiki/Iteration%201%20Plan) and [Project Task Board](https://github.com/users/Tanabodee-Yambangyang/projects/4/views/2?filterQuery=iteration%3A%22Iteration+1%22)
+- [Iteration 2 Plan](https://github.com/Tanabodee-Yambangyang/ku-polls/wiki/Iteration-2-Plan) and [Project Task Board](https://github.com/users/Tanabodee-Yambangyang/projects/4/views/3)
 
 [django-tutorial]: https://www.djangoproject.com/
