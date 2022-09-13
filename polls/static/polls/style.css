@@ -8,6 +8,10 @@ li a {
     font-size: 20px;
 }
 
+ul.g {
+    list-style: none ;
+}
+
 ul.m {
     list-style: none;
 }
@@ -17,8 +21,10 @@ ul.a {
 }
 
 li b {
-    font-size: 20px;
+    font-size: 10px;
 }
+
+
 
 
 body {
