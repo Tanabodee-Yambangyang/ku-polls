@@ -16,6 +16,10 @@ ul.a {
     list-style-type: upper-roman;
 }
 
+li b {
+    font-size: 20px;
+}
+
 
 body {
     background: white url("images/bg1.jpg") 10px -20px;
