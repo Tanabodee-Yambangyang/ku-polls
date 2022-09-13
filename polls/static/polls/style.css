@@ -1,6 +1,21 @@
 li a {
-    color: green ;
+    color: green;
+    font-size: 19px;
 }
+
+.message {
+    color: red;
+    font-size: 20px;
+}
+
+ul.m {
+    list-style: none;
+}
+
+ul.a {
+    list-style-type: upper-roman;
+}
+
 
 body {
     background: white url("images/bg1.jpg") 10px -20px;

@@ -12,8 +12,16 @@
 
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 
+{% if messages %}
+<ul class="m">
+    {% for message in messages %}
+    <li> <a class="message">{% if message.tags %} {% endif %} {{ message }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% if latest_question_list %}
-    <ul>
+    <ul class="a">
     {% for question in latest_question_list %}
         <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}

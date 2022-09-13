@@ -29,7 +29,7 @@ class Question(models.Model):
         if not self.is_published():
             return False
         if not self.end_date:
-            return self.pub_date <= now
+            return True
         return self.pub_date <= now <= self.end_date
 
 

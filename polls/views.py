@@ -1,8 +1,10 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
+
 
 from .models import Choice, Question
 
@@ -27,6 +29,19 @@ class DetailView(generic.DetailView):
         Excludes any questions that aren't published yet.
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
+
+    def get(self, request, *args, **kwargs):
+        """If someone navigates to a poll detail page when voting is not allowed,
+        redirect them to the polls index page and show an error message on the page.
+        """
+        question_id = kwargs["pk"]
+        question = get_object_or_404(Question, pk=question_id)
+
+        if not question.can_vote():
+            messages.error(request, f"Error!!  Question: {question} is not available.")
+            return redirect("polls:index")
+        else:
+            return render(request, self.template_name, {"question": question})
 
 
 class ResultsView(generic.DetailView):
