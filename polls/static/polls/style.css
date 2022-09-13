@@ -1,5 +1,27 @@
 li a {
-    color: green ;
+    color: green;
+    font-size: 19px;
+}
+
+.message {
+    color: red;
+    font-size: 20px;
+}
+
+ul.g {
+    list-style: none ;
+}
+
+ul.m {
+    list-style: none;
+}
+
+ul.a {
+    list-style-type: upper-roman;
+}
+
+li b {
+    font-size: 20px;
 }
 
 body {
