@@ -46,6 +46,59 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_current_date_is_on_or_after_publishing_date(self):
+        """
+        is_published should return True if current date is on or after question’s publication date. Return False if
+        current date is before question’s publication date.
+        """
+        now = timezone.now()
+        time = datetime.timedelta(days=1, seconds=1)
+
+        # test Question with pub_date = now
+        question_1 = Question(pub_date=now)
+        self.assertTrue(question_1.is_published())
+
+        # test Question with pub_date < now
+        question_2 = Question(pub_date=now - time)
+        self.assertTrue(question_2.is_published())
+
+        # test Question with pub_date > now
+        question_3 = Question(pub_date=now + time)
+        self.assertFalse(question_3.is_published())
+
+    def test_published_date_is_in_future(self):
+        """can_vote should return False if current date is before question’s publication date"""
+        now = timezone.now()
+        time = datetime.timedelta(days=1, seconds=1)
+
+        question_2 = Question(pub_date=now + time)
+        self.assertFalse(question_2.can_vote())
+
+    def test_current_date_the_same_as_published_date_or_end_date(self):
+        """can_vote should return True if current date is exactly the published date
+        and False if current date is the end date.
+        """
+        now = timezone.now()
+
+        question = Question(pub_date=now, end_date=now)
+        self.assertTrue(question.can_vote())
+
+    def test_current_date_is_after_end_date(self):
+        """can_vote should return False if current date is after end date."""
+        now = timezone.now()
+        time = datetime.timedelta(days=1, seconds=1)
+
+        question = Question(pub_date=now, end_date=now - time)
+        self.assertFalse(question.can_vote())
+
+    def test_end_date_is_null(self):
+        """can_vote should return True even the poll has no end date."""
+        now = timezone.now()
+        question = Question(pub_date=now)
+
+        self.assertEqual(None, question.end_date)
+        self.assertTrue(question.can_vote())
+
 
 class QuestionIndexViewTests(TestCase):
 
