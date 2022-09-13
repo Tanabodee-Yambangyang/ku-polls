@@ -38,7 +38,7 @@ class DetailView(generic.DetailView):
         question = get_object_or_404(Question, pk=question_id)
 
         if not question.can_vote():
-            messages.error(request, f"Error!!  Question: {question} is not available.")
+            messages.error(request, f"Error!! >>> Question: {question} is not available.")
             return redirect("polls:index")
         else:
             return render(request, self.template_name, {"question": question})
