@@ -56,6 +56,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
 
+LOGIN_REDIRECT_URL = '/polls/'    # show list of polls
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
