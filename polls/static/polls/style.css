@@ -27,3 +27,15 @@ li b {
 body {
     background: white url("images/bg1.jpg") 10px -20px;
 }
+
+.login{
+    color: blue;
+    font-size: 20px;
+}
+
+.signup {
+    color: blue;
+    font-size: 20px;
+}
+
+
