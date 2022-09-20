@@ -3,8 +3,9 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.models import User
 
-from .models import Question
+from .models import Question, Choice
 
 
 def create_question(question_text, days):
@@ -118,7 +119,7 @@ class QuestionIndexViewTests(TestCase):
         """
         question = create_question(question_text="Past question.", days=-30)
         response = self.client.get(reverse('polls:index'))
-        self.assertQuerysetEqual(response.context['latest_question_list'], [question],)
+        self.assertQuerysetEqual(response.context['latest_question_list'], [question], )
 
     def test_future_question(self):
         """
@@ -157,15 +158,16 @@ class QuestionIndexViewTests(TestCase):
 
 
 class QuestionDetailViewTests(TestCase):
+
     def test_future_question(self):
         """
         The detail view of a question with a pub_date in the future
-        returns a 404 not found.
+        must redirect the page to index page.
         """
         future_question = create_question(question_text='Future question.', days=5)
         url = reverse('polls:detail', args=(future_question.id,))
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     def test_past_question(self):
         """
@@ -176,3 +178,69 @@ class QuestionDetailViewTests(TestCase):
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
+
+
+class VoteTests(TestCase):
+
+    def setUp(self):
+        """Set up elements for testing."""
+        self.question1 = Question.objects.create(question_text="test_question", pub_date=timezone.now(),
+                                                 end_date=timezone.now() + datetime.timedelta(days=1, seconds=1))
+
+        self.choice1 = Choice.objects.create(question=self.question1, choice_text="Test Choice1")
+        self.choice1.save()
+
+        self.choice2 = Choice.objects.create(question=self.question1, choice_text="Test Choice2")
+        self.choice2.save()
+
+        self.user = User.objects.create_user(username="test_user", password="test1234")
+        self.user.save()
+
+    def test_vote_when_logged_in(self):
+        """Only an authenticated (logged in) user can submit a vote."""
+        self.client.login(username="test_user", password="test1234")
+        vote_target_url = reverse("polls:vote", args=(self.question1.id,))
+        vote_data = {"choice": self.choice1.id}
+
+        response = self.client.post(vote_target_url, data=vote_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse(
+            "polls:results", args=(self.question1.id,)))
+        self.assertEqual(self.choice1.votes, 1)
+
+    def test_vote_without_login(self):
+        """If user click vote when they are not login then the application will redirect them to login page."""
+        vote_target_url = reverse("polls:vote", args=(self.question1.id,))
+        vote_data = {"choice": self.choice1.id}
+
+        response = self.client.post(vote_target_url, data=vote_data)
+
+        self.assertEqual(response.url, f'/accounts/login/?next=/{self.choice1.id}/vote/')
+
+    def test_vote_without_select_choice(self):
+        """If user click vote without selecting any choice, then the error message must appear."""
+        self.client.login(username="test_user", password="test1234")
+        vote_target_url = reverse("polls:vote", args=(self.question1.id,))
+
+        response = self.client.post(vote_target_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, text="You didn't select a choice.", html=True)
+
+    def test_vote_change_choice(self):
+        """User can change their choice any time and the vote should count correctly."""
+        self.client.login(username="test_user", password="test1234")
+        vote_target_url = reverse("polls:vote", args=(self.question1.id,))
+
+        self.client.post(vote_target_url, data={"choice": self.choice1.id})
+        self.assertEqual(self.choice1.votes, 1)
+        self.assertEqual(self.choice2.votes, 0)
+
+        self.client.post(vote_target_url, data={"choice": self.choice2.id})
+        self.assertEqual(self.choice1.votes, 0)
+        self.assertEqual(self.choice2.votes, 1)
+
+
+
+
