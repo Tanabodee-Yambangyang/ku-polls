@@ -39,12 +39,18 @@ class DetailView(generic.DetailView):
         """
         question_id = kwargs["pk"]
         question = get_object_or_404(Question, pk=question_id)
+        user = request.user
 
         if not question.can_vote():
             messages.error(request, f"Error!!! >>> Question: {question} is not available.")
             return redirect("polls:index")
         else:
-            return render(request, self.template_name, {"question": question})
+            try:
+                vote = Vote.objects.get(user=user, choice__question=question)
+                voted_choice = vote.choice.choice_text
+            except Vote.DoesNotExist:
+                voted_choice = ""
+        return render(request, self.template_name, {"question": question, "vote": voted_choice})
 
 
 class ResultsView(generic.DetailView):
