@@ -48,7 +48,7 @@ class DetailView(generic.DetailView):
             try:
                 vote = Vote.objects.get(user=user, choice__question=question)
                 voted_choice = vote.choice.choice_text
-            except Vote.DoesNotExist:
+            except (Vote.DoesNotExist, TypeError):
                 voted_choice = ""
         return render(request, self.template_name, {"question": question, "vote": voted_choice})
 
