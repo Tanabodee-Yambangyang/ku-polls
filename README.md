@@ -26,6 +26,8 @@ python manage.py runserver
 http://127.0.0.1:8000/
 ``` 
 
+**Now you can access KU polls and start voting!!!**
+
 ## Project Documents
 
 All project documents are in the [Project Wiki](../../wiki/Home).
