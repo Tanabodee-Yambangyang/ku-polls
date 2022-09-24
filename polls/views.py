@@ -6,7 +6,6 @@ from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-
 from .models import Choice, Question, Vote
 
 
@@ -16,10 +15,11 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
-        """Return the last five published questions (not including those set to be
-        published in the future).
+        """Return the last five published questions
+        (not including those set to be published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone
+                                       .now()).order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
@@ -34,15 +34,18 @@ class DetailView(generic.DetailView):
         return Question.objects.filter(pub_date__lte=timezone.now())
 
     def get(self, request, *args, **kwargs):
-        """If someone navigates to a poll detail page when voting is not allowed,
-        redirect them to the polls index page and show an error message on the page.
+        """If someone navigates to a poll detail
+        page when voting is not allowed,
+        redirect them to the polls index
+        page and show an error message on the page.
         """
         question_id = kwargs["pk"]
         question = get_object_or_404(Question, pk=question_id)
         user = request.user
 
         if not question.can_vote():
-            messages.error(request, f"Error!!! >>> Question: {question} is not available.")
+            messages.error(request, f"Error!!! >>> "
+                                    f"Question: {question} is not available.")
             return redirect("polls:index")
         else:
             try:
@@ -50,26 +53,14 @@ class DetailView(generic.DetailView):
                 voted_choice = vote.choice.choice_text
             except (Vote.DoesNotExist, TypeError):
                 voted_choice = ""
-        return render(request, self.template_name, {"question": question, "vote": voted_choice})
+        return render(request, self.template_name,
+                      {"question": question, "vote": voted_choice})
 
 
 class ResultsView(generic.DetailView):
     """The view of Results page."""
     model = Question
     template_name = 'polls/results.html'
-
-    def get(self, request, *args, **kwargs):
-        """If someone navigates to a poll detail page when voting is not allowed,
-        redirect them to the polls index page and show an error message on the page.
-        """
-        question_id = kwargs["pk"]
-        question = get_object_or_404(Question, pk=question_id)
-
-        if not question.can_vote():
-            messages.error(request, f"Error!!! >>> Question: {question} is not available.")
-            return redirect("polls:index")
-        else:
-            return render(request, self.template_name, {"question": question})
 
 
 @login_required
@@ -97,6 +88,5 @@ def vote(request, question_id):
         else:
             vote.choice = selected_choice
             vote.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
-
+        return HttpResponseRedirect(reverse('polls:results',
+                                            args=(question.id,)))
