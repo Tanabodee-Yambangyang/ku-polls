@@ -62,22 +62,6 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
-    def get(self, request, *args, **kwargs):
-        """If someone navigates to a poll detail
-        page when voting is not allowed,
-        redirect them to the polls index
-        page and show an error message on the page.
-        """
-        question_id = kwargs["pk"]
-        question = get_object_or_404(Question, pk=question_id)
-
-        if not question.can_vote():
-            messages.error(request, f"Error!!! >>> "
-                                    f"Question: {question} is not available.")
-            return redirect("polls:index")
-        else:
-            return render(request, self.template_name, {"question": question})
-
 
 @login_required
 def vote(request, question_id):
