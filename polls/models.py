@@ -11,8 +11,12 @@ class Question(models.Model):
 
     Attributes:
         question_text (string): String representing the question
-        pub_date (Datetime): datetime object that represents the question's published date.
-        end_date (DateTime): datetime object represents the end date of the question.
+
+        pub_date (Datetime): datetime object that
+        represents the question's published date.
+
+        end_date (DateTime): datetime object represents
+        the end date of the question.
     """
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -35,7 +39,8 @@ class Question(models.Model):
         """Check if the question is published or not.
 
         Returns:
-            The return value. True if the question is published, False otherwise.
+            The return value. True if the question is published,
+            False otherwise.
         """
         now = timezone.now()
 
@@ -44,11 +49,13 @@ class Question(models.Model):
         return self.pub_date <= now
 
     def can_vote(self):
-        """Check if the current time is within the publish date and the end date.
-        If so, visitors can vote on the question.
+        """Check if the current time is within the
+        publish date and the end date. If so,
+        visitors can vote on the question.
 
         Returns:
-            True if the current time is within the publish date and the end date, False otherwise.
+            True if the current time is within the
+            publish date and the end date, False otherwise.
         """
         now = timezone.now()
 
@@ -81,8 +88,10 @@ class Choice(models.Model):
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"User {self.user.username} has already voted {self.choice.choice_text}."
+        return f"User {self.user.username} has " \
+               f"already voted {self.choice.choice_text}."
