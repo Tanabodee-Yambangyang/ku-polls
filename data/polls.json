@@ -1,0 +1,84 @@
+[
+{
+  "model": "polls.question",
+  "pk": 2,
+  "fields": {
+    "question_text": "If you could time travel, which period would you go to?",
+    "pub_date": "2022-09-05T20:27:07Z",
+    "end_date": null
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 3,
+  "fields": {
+    "question_text": "What will you choose between a life with freedom or a life with safety?",
+    "pub_date": "2022-09-10T08:20:22Z",
+    "end_date": "2022-09-12T08:20:24Z"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 4,
+  "fields": {
+    "question": 2,
+    "choice_text": "Past"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 6,
+  "fields": {
+    "question": 2,
+    "choice_text": "Future"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 7,
+  "fields": {
+    "question": 2,
+    "choice_text": "I am happy with the present"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 8,
+  "fields": {
+    "question": 3,
+    "choice_text": "Be free"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 9,
+  "fields": {
+    "question": 3,
+    "choice_text": "Be safe"
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 1,
+  "fields": {
+    "user": 4,
+    "choice": 7
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "choice": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "choice": 4
+  }
+}
+]
