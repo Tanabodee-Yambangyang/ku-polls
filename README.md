@@ -9,14 +9,63 @@ https://cpske.github.io/ISP) course at Kasetsart University.
 
 ## Install and Run
 
+### How to Install
+
 * Clone this repository to your device.
 ``` 
 git clone https://github.com/Tanabodee-Yambangyang/ku-polls.git
 ```
+* Change the directory to `ku-polls`
+```
+cd ku-polls
+```
+* Install app dependencies in a virtual environment.
+
+  1. Create the virtual env in "env/"
+  
+  ```
+  python -m venv env 
+  ```
+  
+  2. Start the virtual env in bash or zsh
+  
+  - For **Mac/Linux**
+  ```
+  . env/bin/activate
+  ```
+  
+  - For **Window**
+  ```
+  . .\env\Scripts\activate
+  ```
+  
 * Install all packages on requirements.txt.
 ``` 
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ``` 
+
+* Externalize configuration data
+ 
+  1.Create `.env` file inside `ku-polls` directory. 
+  
+  2.Copy everything in `sample.env` and put it in `.env`.
+  
+  3.In `.env` replace **secret-key-value-without-quotes** with your secret key.
+  
+* Importing data from a file
+
+  1. Create a new database by running migrations.
+  ```
+  python manage.py migrate
+  ```
+  
+  2. Import data using **“loaddata”**.
+  ```
+  python manage.py loaddata data/polls.json data/users.json
+  ```
+  
+### How to Run
+
 * Run the server by typing this command.
 ``` 
 python manage.py runserver
@@ -27,6 +76,8 @@ http://127.0.0.1:8000/
 ``` 
 
 **Now you can access KU polls and start voting!!!**
+
+To exit the virtualenv, type `deactivate`, or close the terminal window.
 
 ## Project Documents
 
