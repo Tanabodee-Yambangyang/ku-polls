@@ -1,4 +1,5 @@
 ## Online Polls And Surveys
+![test status](https://github.com/Tanabodee-Yambangyang/ku-polls/actions/workflows/test.yml/badge.svg)
 
 An application for conducting online polls and surveys based
 on the [Django Tutorial project][django-tutorial], with

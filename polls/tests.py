@@ -84,8 +84,9 @@ class QuestionModelTests(TestCase):
         and False if current date is the end date.
         """
         now = timezone.now()
+        time = datetime.timedelta(days=1, seconds=1)
 
-        question = Question(pub_date=now, end_date=now)
+        question = Question(pub_date=now, end_date=now + time)
         self.assertTrue(question.can_vote())
 
     def test_current_date_is_after_end_date(self):
